@@ -1,0 +1,14 @@
+// MUX2to1
+// 2 to 1 Multiplexer (MUX)
+
+module MUX2to1 #(
+) (
+    input control,
+    input [31:0] I0,
+    input [31:0] I1
+    output [31:0] O
+);
+
+O = control ? I0 : I1;
+
+endmodule
