@@ -7,4 +7,6 @@ module PC_plus4 #(
     output [31:0] O;
 );
 
+assign O = I + 4;
+
 endmodule

@@ -4,6 +4,7 @@
 module data_memory #(
 ) (
     input clk,
+    input rst,
     input WE; // write enable
     input [31:0] WD, // write data
     input [31:0] A,

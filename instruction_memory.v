@@ -7,4 +7,8 @@ module instruction_memory #(
     output [31:0] RD
 );
 
+reg [31:0] instruction [0:99];
+
+assign RD = instruction[A];
+
 endmodule
