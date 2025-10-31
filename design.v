@@ -25,6 +25,7 @@ wire PC_next_control;
 // control signals
 wire reg_write;
 wire reg_dst; // controls destination register address
+wire ALU_src;
 wire [2:0] ALU_control; // controls ALU operation
 wire mem_write; // controls whether data_memory gets written to or not
 wire mem_to_reg; // controls whether result comes from ALU or data_memory
@@ -73,7 +74,7 @@ sign_extend MIPS_sign_extend #(
 
 MUX2to1 MUX2to1_srcB #(
 ) (
-    .control(ALUsrc), // control signal: srcB depends on instr type
+    .control(ALU_src;), // control signal: srcB depends on instr type
     .I0(srcB_Rtype), 
     .I1(sign_extended_imm),
     .O(srcB)
@@ -91,7 +92,6 @@ ALU MIPS_ALU #(
 data_memory MIPS_data_memory #(
 ) (
     .clk(clk),
-    .rst(rst),
     .WE(mem_write),
     .WD(srcB_Rtype),
     .A(ALU_result),
@@ -127,18 +127,18 @@ MUX2to1 MUX2to1_PC_next #(
     .I0(PC_plus4),
     .I1(PC_branch),
     .O(PC_next)
-)
+);
 
 control_unit MIPS_control_unit #(
 ) (
-    .op(instr[31:26]);
-    .func(instr[5:0]); // func of R-type
-    .reg_write();
-    .reg_dst(); // controls destination register address
-    .ALU_control(); // controls ALU operation
-    .mem_write(); // controls whether data_memory gets written to or not
-    .mem_to_reg(); // controls whether result comes from ALU or data_memory
-    .branch(); // 1 for beq instr, 0 for all other
+    .op(instr[31:26]),
+    .funct(instr[5:0]), // function of R-type
+    .reg_write(),
+    .reg_dst(), // controls destination register address
+    .ALU_control(), // controls ALU operation
+    .mem_write(), // controls whether data_memory gets written to or not
+    .mem_to_reg(), // controls whether result comes from ALU or data_memory
+    .branch() // 1 for beq instr, 0 for all other
 )
 
 endmodule
