@@ -1,8 +1,7 @@
 // register_file
 // Register File
 
-module register_file #(
-) (
+module register_file (
     input clk,
     input rst,
     input WE3, // write enable
@@ -16,8 +15,18 @@ module register_file #(
 
 reg [31:0] r_register [0:31];
 
+// SIMULATION: PRESET REGISTERS
+initial begin
+    r_register[16] = 32'h00000000;
+    r_register[17] = 32'h00000003;
+    r_register[18] = 32'h00000004;
+end
+
 always @(posedge clk) begin
-    if (WE3 && (A3 != 5'b0)) begin
+    if (rst) begin
+        r_register[0] <= 5'b0;
+    end
+    else if (WE3 && (A3 != 5'b0)) begin
         r_register[A3] <= WD3;
     end
 end
