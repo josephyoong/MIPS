@@ -1,8 +1,7 @@
 // main_decoder
 // Main Decoder
 
-module main_decoder #(
-) (
+module main_decoder (
     input [5:0] opcode,
     output reg reg_write,
     output reg reg_dst, // controls destination register address
