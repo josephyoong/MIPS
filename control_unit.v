@@ -1,8 +1,7 @@
 // control_unit
 // Control Unit
 
-module control_unit #(
-) (
+module control_unit (
     input [5:0] op,
     input [5:0] funct,
     output reg_write,
@@ -16,8 +15,7 @@ module control_unit #(
 
 wire [1:0] ALU_op;
 
-main_decoder control_unit_main_decoder #(
-) (
+main_decoder control_unit_main_decoder (
     .opcode(op),
     .reg_write(reg_write),
     .reg_dst(reg_dst),
@@ -28,8 +26,7 @@ main_decoder control_unit_main_decoder #(
     .ALU_op(ALU_op)
 );
 
-ALU_decoder control_unit_ALU_decoder #(
-) (
+ALU_decoder control_unit_ALU_decoder (
     .funct(funct),
     .ALU_op(ALU_op),
     .ALU_control(ALU_control)
