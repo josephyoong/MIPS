@@ -1,7 +1,6 @@
 // MIPS 
 
-module MIPS #(
-) (
+module MIPS (
     input clk,
     input rst
 );
@@ -31,30 +30,26 @@ wire mem_write; // controls whether data_memory gets written to or not
 wire mem_to_reg; // controls whether result comes from ALU or data_memory
 wire branch;
 
-PC MIPS_PC #(
-) (
+PC MIPS_PC (
     .clk(clk),
     .rst(rst),
     .PC_next(PC_next),
     .PC(PC)
 );
 
-instruction_memory MIPS_instruction_memory #(
-) (
+instruction_memory MIPS_instruction_memory (
     .A(PC), // address of instruction memory is the PC
     .RD(instr) // reads the instruction
 );
 
-MUX2to1 MUX2to1_write_reg #(
-) (
+MUX2to1 MUX2to1_write_reg (
     .control(reg_dst), // control signal: write_reg depends on instr type
     .I0(instr[20:16]), 
     .I1(instr[15:11]),
     .O(write_reg)
 );
 
-register_file MIPS_register_file #(
-) (
+register_file MIPS_register_file (
     .clk(clk),
     .rst(rst),
     .WE3(reg_write), // control signal
@@ -66,22 +61,19 @@ register_file MIPS_register_file #(
     .RD2(srcB_Rtype)
 );
 
-sign_extend MIPS_sign_extend #(
-) (
+sign_extend MIPS_sign_extend (
     .I(instr[15:0]),
     .O(sign_extended_imm)
 );
 
-MUX2to1 MUX2to1_srcB #(
-) (
-    .control(ALU_src;), // control signal: srcB depends on instr type
+MUX2to1 MUX2to1_srcB (
+    .control(ALU_src), // control signal: srcB depends on instr type
     .I0(srcB_Rtype), 
     .I1(sign_extended_imm),
     .O(srcB)
 );
 
-ALU MIPS_ALU #(
-) (
+ALU MIPS_ALU (
     .srcA(srcA),
     .srcB(srcB),
     .ALU_control(ALU_control), // control signal: ALU operation depends on instr type
@@ -89,8 +81,7 @@ ALU MIPS_ALU #(
     .zero(ALU_zero)
 );
 
-data_memory MIPS_data_memory #(
-) (
+data_memory #(.DATA_MEMORY_DEPTH(256)) MIPS_data_memory (
     .clk(clk),
     .WE(mem_write),
     .WD(srcB_Rtype),
@@ -98,22 +89,19 @@ data_memory MIPS_data_memory #(
     .RD(read_data)
 );
 
-MUX2to1 MUX2to1_result #(
-) (
+MUX2to1 MUX2to1_result (
     .control(mem_to_reg),
     .I0(ALU_result),
     .I1(read_data),
     .O(result)
 );
 
-PC_plus4 MIPS_PC_plus4 #(
-) (
+PC_plus4 MIPS_PC_plus4 (
     .I(PC),
     .O(PC_plus4)
 );
 
-PC_branch MIPS_PC_branch #(
-) (
+PC_branch MIPS_PC_branch (
     .sign_extended_imm(sign_extended_imm),
     .PC_plus4(PC_plus4),
     .PC_branch(PC_branch)
@@ -121,16 +109,14 @@ PC_branch MIPS_PC_branch #(
 
 assign PC_next_control = branch & ALU_zero;
 
-MUX2to1 MUX2to1_PC_next #(
-) (
+MUX2to1 MUX2to1_PC_next (
     .control(PC_next_control),
     .I0(PC_plus4),
     .I1(PC_branch),
     .O(PC_next)
 );
 
-control_unit MIPS_control_unit #(
-) (
+control_unit MIPS_control_unit (
     .op(instr[31:26]),
     .funct(instr[5:0]), // function of R-type
     .reg_write(),
@@ -139,6 +125,6 @@ control_unit MIPS_control_unit #(
     .mem_write(), // controls whether data_memory gets written to or not
     .mem_to_reg(), // controls whether result comes from ALU or data_memory
     .branch() // 1 for beq instr, 0 for all other
-)
+);
 
 endmodule
