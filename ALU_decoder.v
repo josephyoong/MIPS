@@ -1,8 +1,7 @@
 // ALU_decoder
 // ALU Decoder
 
-module ALU_decoder #(
-) (
+module ALU_decoder (
     input [5:0] funct,
     input [1:0] ALU_op,
     output reg [2:0] ALU_control
