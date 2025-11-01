@@ -119,12 +119,13 @@ MUX2to1 MUX2to1_PC_next (
 control_unit MIPS_control_unit (
     .op(instr[31:26]),
     .funct(instr[5:0]), // function of R-type
-    .reg_write(),
-    .reg_dst(), // controls destination register address
-    .ALU_control(), // controls ALU operation
-    .mem_write(), // controls whether data_memory gets written to or not
-    .mem_to_reg(), // controls whether result comes from ALU or data_memory
-    .branch() // 1 for beq instr, 0 for all other
+    .reg_write(reg_write),
+    .reg_dst(reg_dst), // controls destination register address
+    .ALU_src(ALU_src),
+    .ALU_control(ALU_control), // controls ALU operation
+    .mem_write(mem_write), // controls whether data_memory gets written to or not
+    .mem_to_reg(mem_to_reg), // controls whether result comes from ALU or data_memory
+    .branch(branch) // 1 for beq instr, 0 for all other
 );
 
 endmodule
