@@ -6,7 +6,7 @@ module PC #(
     input clk,
     input rst,
     input [31:0] PC_next,
-    output [31:0] PC
+    output reg [31:0] PC
 );
 
 reg [31:0] r_PC;
