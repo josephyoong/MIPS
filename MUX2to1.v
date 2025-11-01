@@ -8,6 +8,6 @@ module MUX2to1 (
     output [31:0] O
 );
 
-assign O = control ? I0 : I1;
+assign O = control ? I1 : I0;
 
 endmodule
