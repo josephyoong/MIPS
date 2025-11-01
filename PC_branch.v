@@ -2,13 +2,12 @@
 // Program Counter (PC) Branch 
 
 module PC_branch (
-) (
     input [31:0] sign_extended_imm,
     input [31:0] PC_plus4,
     output [31:0] PC_branch
 );
 
-wire [31:0] sign_extended_imm_x4,
+wire [31:0] sign_extended_imm_x4;
 
 assign sign_extended_imm_x4[31:2] = sign_extended_imm[29:0];
 assign sign_extended_imm_x4[1:0] = 2'b00;
